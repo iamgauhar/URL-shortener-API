@@ -1,10 +1,14 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const cookieParser = require('cookie-parser');
+
 const { UserRegisterModel } = require("../models/authentication.model")
 
 
 const UserRouter = express.Router()
+UserRouter.use(cookieParser());
+
 
 UserRouter.post("/register", async (req, res) => {
     try {
@@ -35,8 +39,8 @@ UserRouter.post("/login", async (req, res) => {
                     return res.status(500).json({ result: false, msg: "Wrong Password" })
                 }
                 const jwtToken = jwt.sign({ username: user.username, email: user.email }, process.env.JWT_KEY)
-                res.cookie("token", `${jwtToken}`, { maxAge: 900000000 })
-                res.status(200).json({ result: true, msg: "Login successful" })
+                // res.cookie("token", `${jwtToken}`, { maxAge: 900000000, secure: true })
+                res.status(200).json({ result: true, msg: "Login successful", token: jwtToken })
             })
         } else {
             res.status(500).json({ result: false, msg: "User not found" })
@@ -47,4 +51,29 @@ UserRouter.post("/login", async (req, res) => {
     }
 })
 
+UserRouter.post("/profile", async (req, res) => {
+    const userToken = req.headers?.authorization
+    if (userToken) {
+        const decode = jwt.verify(userToken, process.env.JWT_KEY)
+        if (decode) {
+            const { username } = decode
+            try {
+                const user = await UserRegisterModel.findOne({ username })
+                // console.log(user);
+                res.status(200).json({ result: true, msg: "Login success", name: user.name, })
+
+            } catch (error) {
+                console.log(error);
+                res.status(400).json({ result: false, msg: "Please Login" })
+
+            }
+
+        } else {
+            res.status(500).json({ result: false, msg: "Not authorized Please Login" })
+
+        }
+    } else {
+        res.status(500).json({ result: false, msg: "Please Login" })
+    }
+})
 module.exports = { UserRouter }
