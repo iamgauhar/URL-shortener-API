@@ -3,7 +3,7 @@ const nanoid = require("nanoid")
 const { analyticsOfUrl, generatePublicShortUrl } = require("../controllers/publicUrlController")
 const { publicUrlmiddleware } = require("../middlewares/publicUrl")
 const { authorization } = require("../middlewares/authorization")
-const { generatePrivateShortUrl } = require("../controllers/privateUrlController")
+const { generatePrivateShortUrl, getAllmyUrls } = require("../controllers/privateUrlController")
 const { UrlModel } = require("../models/Url.model")
 
 const UrlRouter = express.Router({ mergeParams: true })
@@ -11,6 +11,7 @@ const UrlRouter = express.Router({ mergeParams: true })
 
 UrlRouter.post("/public", publicUrlmiddleware, generatePublicShortUrl)
 UrlRouter.post("/private", authorization, generatePrivateShortUrl)
+UrlRouter.get("/myurls/:userId", authorization, getAllmyUrls)
 UrlRouter.get("/analytics/:shortId", analyticsOfUrl)
 
 module.exports = { UrlRouter }
