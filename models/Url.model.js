@@ -10,6 +10,14 @@ const UrlModel = mongooose.model("url", mongooose.Schema({
         type: String,
         require: true
     },
+    admin: {
+        type: String,
+        require: true
+    },
+    user: {
+        type: String,
+        require: true
+    },
     visitHistory: [{ timestamp: { type: String } }]
 }, { timestamps: true }))
 

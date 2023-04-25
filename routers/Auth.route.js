@@ -40,7 +40,7 @@ UserRouter.post("/login", async (req, res) => {
                 }
                 const jwtToken = jwt.sign({ username: user.username, email: user.email }, process.env.JWT_KEY)
                 // res.cookie("token", `${jwtToken}`, { maxAge: 900000000, secure: true })
-                res.status(200).json({ result: true, msg: "Login successful", token: jwtToken })
+                res.status(200).json({ result: true, msg: "Login successful", token: `Bearer ${jwtToken}` })
             })
         } else {
             res.status(500).json({ result: false, msg: "User not found" })

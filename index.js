@@ -17,19 +17,18 @@ app.use(cookieParser());
 app.use("/user", UserRouter)
 app.use("/url", UrlRouter)
 
-app.get("/:urlId", async (req, res) => {
+app.get("/:shortId", async (req, res) => {
 
-    const shortId = req.params.urlId
+    const { shortId } = req.params
 
     try {
         const newUrl = await UrlModel.findOneAndUpdate({ shortId }, {
             $push: {
                 visitHistory: {
-                    timestamp: Date.now()
+                    timestamp: new Date()
                 }
             }
         })
-
         if (!newUrl) return res.status(404).json({ result: false, msg: "URL not found!" })
         res.redirect(newUrl.redirectURL)
     } catch (error) {
@@ -38,11 +37,12 @@ app.get("/:urlId", async (req, res) => {
 
     }
 
-
 })
 
+
+
 app.get("/test", (req, res) => {
-    res.send("Chat with API")
+    res.send("URL shortener API")
 })
 
 
@@ -53,8 +53,8 @@ app.listen(5000, async () => {
         console.log("DB Connected");
         console.log("listing on 5000");
 
-
     } catch (err) {
+
         console.log("Faild to connect");
 
     }
