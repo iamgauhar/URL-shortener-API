@@ -75,6 +75,7 @@ export const setPassword = async (req, res, next) => {
 
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const result = await connection.execute(`UPDATE users SET password = "${hashedPassword}", passwordSetToken = "", isVarified = ${true} WHERE id = "${id}"`)
+            console.log(result)
             if (result[0].affectedRows == 1) {
                 return res.status(200).json({
                     status: true,
