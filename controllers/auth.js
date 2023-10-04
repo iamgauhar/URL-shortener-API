@@ -72,7 +72,7 @@ export const setPassword = async (req, res, next) => {
         const user = await connection.execute(`SELECT * FROM users WHERE id = "${id}"`)
         const currentDate = new Date();
 
-        console.log((currentDate - user[0][0]?.updated_at > 3600000))
+        console.log((currentDate - user[0][0]?.updated_at))
         console.log(currentDate, user[0][0]?.updated_at)
         if ((currentDate - user[0][0]?.updated_at > 3600000) && user[0][0]?.passwordSetToken === token) {
 
