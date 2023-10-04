@@ -32,3 +32,36 @@ export const passwordValidation = [
         .isStrongPassword()
         .withMessage('password shoule be strong password'),
 ]
+
+export const loginValidation = [
+    body('password')
+        .not()
+        .isEmpty()
+        .withMessage('password is required')
+        .isLength({ min: 6 })
+        .withMessage('Password should be at least 6 characters')
+        .isStrongPassword()
+        .withMessage('password shoule be strong password'),
+
+    body("email")
+        .not()
+        .isEmpty()
+        .withMessage('email is required')
+        .isEmail()
+        .withMessage('Please input a valid email')
+        .trim()
+        .toLowerCase()
+        .normalizeEmail()
+]
+
+export const emailValidation = [
+    body("email")
+        .not()
+        .isEmpty()
+        .withMessage('email is required')
+        .isEmail()
+        .withMessage('Please input a valid email')
+        .trim()
+        .toLowerCase()
+        .normalizeEmail()
+]
