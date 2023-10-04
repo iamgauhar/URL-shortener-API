@@ -23,7 +23,7 @@ export const signup = async (req, res, next) => {
 
     try {
         await connection.execute(`${insertQuery} ("${id}", "${email}", "${first_name}", "${(last_name || "")}", "${token}")`)
-        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/set-password/${id}/${token}">click here </a> </h3>`;
+        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${id}/${token}">click here </a> </h3>`;
 
         await sendEmail(email, "Verify email", message)
         return res.status(200).json({
@@ -165,7 +165,7 @@ export const resetPasswordMail = async (req, res, next) => {
                 message: "Somthing went wrong!"
             })
         }
-        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/set-password/${user[0][0].id}/${token}">click here </a> </h3>`;
+        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${user[0][0].id}/${token}">click here </a> </h3>`;
 
         const response = await sendEmail(email, "Forgot password", message)
         if (response.response.includes("OK")) {
