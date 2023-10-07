@@ -5,13 +5,15 @@ import bcrypt from 'bcryptjs'
 import connection from '../configs/db.js'
 import sendEmail from '../utils/sendEmail.js';
 import jwt from 'jsonwebtoken';
+import generateId from '../utils/generateId.js';
+import { nanoid } from 'nanoid';
 
 
 // Stage 1 of signup process / 2
 export const signup = async (req, res, next) => {
 
     const { email, first_name, last_name } = req.body;
-    const token = uuidv4();
+    const token = nanoid();
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = errors.array()[0].msg;
@@ -19,7 +21,7 @@ export const signup = async (req, res, next) => {
     }
 
     const insertQuery = "INSERT INTO users (id, email, first_name, last_name, passwordSetToken) VALUES";
-    const id = uuidv4()
+    const id = generateId;
 
     try {
         await connection.execute(`${insertQuery} ("${id}", "${email}", "${first_name}", "${(last_name || "")}", "${token}")`)
@@ -71,7 +73,7 @@ export const setPassword = async (req, res, next) => {
     try {
         const user = await connection.execute(`SELECT * FROM users WHERE id = "${id}"`)
         const currentDate = new Date();
-        if ((currentDate - user[0][0]?.updated_at < 3600000) && user[0][0]?.passwordSetToken === token) {
+        if ((currentDate - user[0][0]?.updated_at > 3600000) && user[0][0]?.passwordSetToken === token) {
 
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const result = await connection.execute(`UPDATE users SET password = "${hashedPassword}", passwordSetToken = "", isVarified = ${true} WHERE id = "${id}"`)
