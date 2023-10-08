@@ -1,5 +1,4 @@
 import express from "express";
-import { v4 as uuidv4 } from 'uuid';
 import 'dotenv/config'
 
 
@@ -7,14 +6,16 @@ import 'dotenv/config'
 // importes custom modules.
 import connection from "./configs/db.js";
 import logger from "./configs/logger.js";
-import router from "./routes/auth.js";
+import userRouter from "./routes/auth.js";
+import urlRouter from "./routes/url.js";
 
 
 
 const app = express()
 app.use(express.json())
 
-app.use("/auth", router)
+app.use("/auth", userRouter)
+app.use("/url", urlRouter)
 
 
 

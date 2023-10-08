@@ -19,7 +19,6 @@ export const signupValidation = [
         .withMessage('Please input a valid email')
         .trim()
         .toLowerCase()
-        .normalizeEmail()
 ]
 
 export const passwordValidation = [
@@ -51,7 +50,6 @@ export const loginValidation = [
         .withMessage('Please input a valid email')
         .trim()
         .toLowerCase()
-        .normalizeEmail()
 ]
 
 export const emailValidation = [
@@ -63,5 +61,4 @@ export const emailValidation = [
         .withMessage('Please input a valid email')
         .trim()
         .toLowerCase()
-        .normalizeEmail()
 ]
