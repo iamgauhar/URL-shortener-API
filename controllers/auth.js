@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import { v4 as uuidv4 } from 'uuid';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs'
 import connection from '../configs/db.js'

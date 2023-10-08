@@ -72,9 +72,69 @@ export const getMyUrls = async (req, res) => {
 
 }
 
+export const deleteUrl = async (req, res) => {
+    const { url } = req.params;
+    try {
+        const urlAdmin = await connection.execute(`SELECT * FROM url_mapping WHERE uid = "${url}" OR short_url = "${url}"`)
 
+        if (urlAdmin[0].length === 0) return res.status(404).json({
+            status: false,
+            message: "URL or URL ID not found",
+        })
 
+        if (urlAdmin[0][0].user_id !== req.body.user_id) return res.status(401).json({
+            status: false,
+            message: "Not authorized, Please login",
+        })
 
+        await connection.execute(`DELETE FROM url_mapping WHERE uid = "${url}" OR short_url = "${url}"`)
+
+        return res.status(200).json({
+            status: true,
+            message: "URL deleted successful",
+        })
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: "URL deleted unsuccessful",
+            response: err?.message
+        })
+
+    }
+}
+
+export const updateUrl = async (req, res) => {
+
+    const { url } = req.params;
+    try {
+        const urlAdmin = await connection.execute(`SELECT * FROM url_mapping WHERE uid = "${url}" OR short_url = "${url}"`)
+
+        if (urlAdmin[0].length === 0) return res.status(404).json({
+            status: false,
+            message: "URL or URL ID not found",
+        })
+
+        if (urlAdmin[0][0].user_id !== req.body.user_id) return res.status(401).json({
+            status: false,
+            message: "Not authorized, Please login",
+        })
+
+        await connection.execute(`UPDATE url_mapping SET original_url = "${req.body.original_url}" WHERE uid = "${url}" OR short_url = "${url}"`)
+
+        return res.status(200).json({
+            status: true,
+            message: "URL updated successful",
+        })
+    } catch (err) {
+        return res.status(400).json({
+            status: false,
+            message: "URL update unsuccessful",
+            response: err?.message
+        })
+
+    }
+
+}
 
 
 
