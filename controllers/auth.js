@@ -158,7 +158,7 @@ export const resetPasswordMail = async (req, res, next) => {
             status: false,
             message: "Account not exists."
         })
-        const token = uuidv4()
+        const token = nanoid()
         const result = await connection.execute(`UPDATE users SET passwordSetToken = "${token}" WHERE email = "${email}"`)
 
         if (result[0].affectedRows !== 1) {
