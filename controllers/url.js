@@ -51,6 +51,7 @@ export const generatePrivateUrl = async (req, res) => {
     }
 }
 
+
 export const getMyUrls = async (req, res) => {
     const { user_id } = req.body;
 
@@ -71,6 +72,7 @@ export const getMyUrls = async (req, res) => {
     }
 
 }
+
 
 export const deleteUrl = async (req, res) => {
     const { url } = req.params;

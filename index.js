@@ -8,12 +8,14 @@ import connection from "./configs/db.js";
 import logger from "./configs/logger.js";
 import userRouter from "./routes/auth.js";
 import urlRouter from "./routes/url.js";
+import { visitUrl } from "./controllers/visitUrl.js";
 
 
 
 const app = express()
 app.use(express.json())
 
+app.get("/:url", visitUrl)
 app.use("/auth", userRouter)
 app.use("/url", urlRouter)
 

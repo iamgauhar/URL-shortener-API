@@ -11,4 +11,5 @@ urlRouter.get("/all-urls", authorization, getMyUrls)
 urlRouter.delete("/delete/:url", authorization, deleteUrl)
 urlRouter.put("/update/:url", checkUrl, authorization, updateUrl)
 
+
 export default urlRouter

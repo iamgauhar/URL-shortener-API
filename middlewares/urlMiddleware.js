@@ -1,5 +1,4 @@
 import { nanoid, customAlphabet } from "nanoid";
-import generateId from "../utils/generateId.js";
 
 export const generateUrlandId = (req, res, next) => {
 
