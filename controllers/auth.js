@@ -72,7 +72,7 @@ export const setPassword = async (req, res, next) => {
     try {
         const user = await connection.execute(`SELECT * FROM users WHERE id = "${id}"`)
         const currentDate = new Date();
-        if ((currentDate - user[0][0]?.updated_at > 3600000) && user[0][0]?.passwordSetToken === token) {
+        if ((currentDate - user[0][0]?.updated_at < 3600000) && user[0][0]?.passwordSetToken === token) {
 
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const result = await connection.execute(`UPDATE users SET password = "${hashedPassword}", passwordSetToken = "", isVarified = ${true} WHERE id = "${id}"`)
