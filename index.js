@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors'
 import 'dotenv/config'
 
 
@@ -14,6 +15,8 @@ import { visitUrl } from "./controllers/visitUrl.js";
 
 const app = express()
 app.use(express.json())
+app.use(cors())
+app.options('*', cors())
 
 app.get("/:url", visitUrl)
 app.use("/auth", userRouter)
