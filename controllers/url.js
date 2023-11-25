@@ -10,7 +10,7 @@ export const generateOpenUrl = async (req, res) => {
         if (result[0].affectedRows) return res.status(200).json({
             status: true,
             message: "Short URL generated",
-            response: `${process.env.BASEURL + "/" + short_url}`
+            response: short_url
 
         })
     } catch (error) {
@@ -36,7 +36,7 @@ export const generatePrivateUrl = async (req, res) => {
         if (result[0].affectedRows) return res.status(200).json({
             status: true,
             message: "Short URL generated",
-            response: `${process.env.BASEURL + "/" + short_url}`
+            response: short_url
 
         })
     } catch (error) {
