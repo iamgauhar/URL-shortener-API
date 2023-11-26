@@ -18,7 +18,7 @@ export const visitUrl = async (req, res) => {
 
         await connection.execute(`UPDATE url_mapping SET count_clicks = ${clicks} WHERE short_url = "${short_url}"`)
 
-        return res.status(200).json({ redirect_url: url[0][0].original_url, reponse: true })
+        return res.status(200).json({ redirect_url: url[0][0].original_url, response: true })
 
     } catch (err) {
         return res.status(404).json({
