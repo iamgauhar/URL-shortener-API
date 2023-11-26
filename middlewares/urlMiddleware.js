@@ -1,11 +1,11 @@
-import { nanoid, customAlphabet } from "nanoid";
+import { nanoid, customAlphabet, urlAlphabet, random, customRandom } from "nanoid";
 
 export const generateUrlandId = (req, res, next) => {
 
     const idf = customAlphabet('0123456789', 13)
+    const urlId = customRandom(urlAlphabet, 6, random)
 
-
-    req.body.short_url = nanoid(8);
+    req.body.short_url = urlId();
     req.body.uid = idf();
 
     next()

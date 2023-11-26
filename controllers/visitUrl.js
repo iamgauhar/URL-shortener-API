@@ -4,7 +4,6 @@ import connection from "../configs/db.js";
 export const visitUrl = async (req, res) => {
 
     const short_url = req.params.url;
-    console.log(short_url)
 
     try {
 
@@ -13,7 +12,7 @@ export const visitUrl = async (req, res) => {
             status: false,
             message: "URL not found!"
         })
-        console.log(url)
+
         let clicks = url[0][0].count_clicks + 1
 
         await connection.execute(`UPDATE url_mapping SET count_clicks = ${clicks} WHERE short_url = "${short_url}"`)
