@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs'
 import connection from '../configs/db.js'
 import sendEmail from '../utils/sendEmail.js';
 import jwt from 'jsonwebtoken';
-import generateId from '../utils/generateId.js';
-import { nanoid } from 'nanoid';
+import { nanoid, customAlphabet } from 'nanoid';
+const idf = customAlphabet('0123456789', 13)
 
 
 // Stage 1 of signup process / 2
@@ -20,13 +20,15 @@ export const signup = async (req, res, next) => {
     }
 
     const insertQuery = "INSERT INTO users (id, email, first_name, last_name, passwordSetToken) VALUES";
-    const id = generateId;
+    const id = idf();
 
     try {
-        await connection.execute(`${insertQuery} ("${id}", "${email}", "${first_name}", "${(last_name || "")}", "${token}")`)
-        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${id}/${token}">click here </a> </h3>`;
 
+        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${id}/${token}">click here </a> </h3>`;
         await sendEmail(email, "Verify email", message)
+
+        await connection.execute(`${insertQuery} ("${id}", "${email}", "${first_name}", "${(last_name || "")}", "${token}")`)
+
         return res.status(200).json({
             status: true,
             message: "Signup successful please varify your Email."
@@ -131,7 +133,7 @@ export const login = async (req, res) => {
             message: "Password did not mached."
         })
         const token = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWTKEY)
-        res.status(200).json({
+        return res.status(200).json({
             status: true,
             message: 'user logged in successfully',
             user: {
@@ -141,6 +143,8 @@ export const login = async (req, res) => {
                 token,
             },
         });
+
+        // return res.cookie(userInfo, user)
 
     } catch (err) {
         return res.status(400).json({ status: false, code: err.code, message: "Somthing went wrong." })
