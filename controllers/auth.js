@@ -170,6 +170,7 @@ export const resetPasswordMail = async (req, res, next) => {
                 message: "Somthing went wrong!"
             })
         }
+
         let message = `<h3>To reset your password <a href="${process.env.BASEURL_FE}/verify/${user[0][0].id}/${token}">click here </a> </h3>`;
 
         const response = await sendEmail(email, "Forgot password", message)
