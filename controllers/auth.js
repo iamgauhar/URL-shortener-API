@@ -24,10 +24,11 @@ export const signup = async (req, res, next) => {
 
     try {
 
-        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${id}/${token}">click here </a> </h3>`;
-        await sendEmail(email, "Verify email", message)
 
         await connection.execute(`${insertQuery} ("${id}", "${email}", "${first_name}", "${(last_name || "")}", "${token}")`)
+
+        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${id}/${token}">click here </a> </h3>`;
+        await sendEmail(email, "Verify email", message)
 
         return res.status(200).json({
             status: true,
