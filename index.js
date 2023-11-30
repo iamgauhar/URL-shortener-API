@@ -31,13 +31,6 @@ app.use("/auth", userRouter)
 app.use("/url", urlRouter)
 
 
-app.get('/cookie/get', (req, res) => {
-    const token = req.cookies?.user
-    console.log(JSON.parse(token).token);
-    return res.send(token)
-})
-
-
 const PORT = process.env.PORT || 5001
 app.listen(PORT, async () => {
     try {

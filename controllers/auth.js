@@ -31,7 +31,7 @@ export const signup = async (req, res, next) => {
 
         return res.status(200).json({
             status: true,
-            message: "Signup successful please varify your Email."
+            message: "Signup successful, Please check your inbox and varify E-mail."
         })
 
 
@@ -134,35 +134,15 @@ export const login = async (req, res) => {
         })
         const token = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWTKEY)
 
-        res.cookie('user', JSON.stringify({
-            id: userData.id,
-            name: userData.first_name,
-            email: userData.email,
-            token,
-        }), {
-            secure: true,
-            sameSite: 'None'
-        });
-
-
-
         res.status(200).json({
             status: true,
             message: 'user logged in successfully',
             user: {
                 id: userData.id,
                 name: userData.first_name,
-                email: userData.email,
                 token,
             },
         });
-
-        // return res.cookie('user', {
-        //     id: userData.id,
-        //     name: userData.first_name,
-        //     email: userData.email,
-        //     token,
-        // })
 
     } catch (err) {
         return res.status(400).json({ status: false, code: err.code, message: "Somthing went wrong." })
@@ -190,13 +170,13 @@ export const resetPasswordMail = async (req, res, next) => {
                 message: "Somthing went wrong!"
             })
         }
-        let message = `<h3>To reset your password <a href="${process.env.BASEURL}/auth/set-password/${user[0][0].id}/${token}">click here </a> </h3>`;
+        let message = `<h3>To reset your password <a href="${process.env.BASEURL_FE}/verify/${user[0][0].id}/${token}">click here </a> </h3>`;
 
         const response = await sendEmail(email, "Forgot password", message)
         if (response.response.includes("OK")) {
             return res.status(200).json({
                 status: true,
-                message: "please varify your Email."
+                message: "Please check your inbox and varify E-mail."
             })
         }
         return res.status(400).json({
