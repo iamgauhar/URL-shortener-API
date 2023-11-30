@@ -133,7 +133,20 @@ export const login = async (req, res) => {
             message: "Password did not mached."
         })
         const token = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWTKEY)
-        return res.status(200).json({
+
+        res.cookie('user', JSON.stringify({
+            id: userData.id,
+            name: userData.first_name,
+            email: userData.email,
+            token,
+        }), {
+            secure: true,
+            sameSite: 'None'
+        });
+
+
+
+        res.status(200).json({
             status: true,
             message: 'user logged in successfully',
             user: {
@@ -144,7 +157,12 @@ export const login = async (req, res) => {
             },
         });
 
-        // return res.cookie(userInfo, user)
+        // return res.cookie('user', {
+        //     id: userData.id,
+        //     name: userData.first_name,
+        //     email: userData.email,
+        //     token,
+        // })
 
     } catch (err) {
         return res.status(400).json({ status: false, code: err.code, message: "Somthing went wrong." })

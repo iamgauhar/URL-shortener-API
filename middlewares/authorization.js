@@ -14,7 +14,7 @@ export const authorization = async (req, res, next) => {
         if (err) return res.status(401).json({
             status: false,
             message: "Please login",
-            response: "Unauthorized, ghfgh"
+            response: "Unauthorized"
         })
 
         req.body.user_id = decode.id
