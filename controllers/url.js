@@ -51,16 +51,20 @@ export const generatePrivateUrl = async (req, res) => {
     }
 }
 
-
+// SELECT * FROM url_mapping Where uid=2442656892712 ORDER BY created_at DESC LIMIT 5 OFFSET 0;
 export const getMyUrls = async (req, res) => {
     const { user_id } = req.body;
+    const { limit, offset } = req.params;
 
     try {
-        const result = await connection.execute(`SELECT * FROM url_mapping WHERE user_id = ${user_id}`)
+        const result = await connection.execute(`SELECT * FROM url_mapping WHERE user_id = ${user_id} ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`)
+        const length = await connection.execute(`SELECT COUNT (*) AS record_count FROM url_mapping WHERE user_id = ${user_id}`)
+
         return res.status(200).json({
             status: true,
             message: "URLs fetched successfuly",
-            response: result[0]
+            response: result[0],
+            length: length[0][0].record_count
         })
     } catch (err) {
         return res.status(404).json({
