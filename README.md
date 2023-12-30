@@ -28,7 +28,7 @@ A URL shortener is a tool or service that takes a long URL and creates a shorten
 - **Frontend:** [﻿https://github.com/iamgauhar/URL-Shortener](https://github.com/iamgauhar/URL-Shortener) 
 ## 3. Project deployed links.
 - **Backend API:** [﻿https://url-shortener-mg.cyclic.app/](https://url-shortener-mg.cyclic.app/) 
-- Frontend            Coming Soon/
+- **Frontend:**    https://sho-rt.netlify.app/
 ## 4. API Endpoints?
 - **Base URL** `﻿[﻿url-shortener-mg.cyclic.app/](https://url-shortener-mg.cyclic.app/)` 
 ### (I). Authentication Endpoints.
